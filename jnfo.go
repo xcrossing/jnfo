@@ -1,6 +1,8 @@
 package jnfo
 
 import (
+	"fmt"
+	"path/filepath"
 	"regexp"
 	"strings"
 
@@ -39,6 +41,14 @@ func New(url string) (*Jnfo, error) {
 	nfo.setCast(doc)
 
 	return nfo, nil
+}
+
+func (nfo *Jnfo) NumCastPicName() string {
+	ext := filepath.Ext(nfo.PicLink)
+	if len(nfo.Cast) > 0 {
+		return fmt.Sprintf("%s-%s%s", nfo.Num, strings.Join(nfo.Cast, " "), ext)
+	}
+	return fmt.Sprintf("%s%s", nfo.Num, ext)
 }
 
 func (nfo *Jnfo) setNumDateDuration(doc *goquery.Document) {

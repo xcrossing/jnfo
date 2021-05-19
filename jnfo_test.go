@@ -14,4 +14,5 @@ func TestNew(t *testing.T) {
 
 	bytes, err := json.MarshalIndent(jnfo, "", "  ")
 	t.Log(string(bytes))
+	t.Log(jnfo.NumCastPicName())
 }
