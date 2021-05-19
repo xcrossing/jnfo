@@ -1,8 +1,8 @@
 package jnfo
 
 import (
+	"encoding/json"
 	"os"
-	"reflect"
 	"testing"
 )
 
@@ -12,12 +12,6 @@ func TestNew(t *testing.T) {
 		t.Fatal(err)
 	}
 
-	v := reflect.ValueOf(*jnfo)
-	ty := v.Type()
-	kv := make(map[string]interface{})
-	for i := 0; i < v.NumField(); i++ {
-		kv[ty.Field(i).Name] = v.Field(i).Interface()
-	}
-
-	t.Log(kv)
+	bytes, err := json.MarshalIndent(jnfo, "", "  ")
+	t.Log(string(bytes))
 }
