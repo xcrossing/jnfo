@@ -49,17 +49,17 @@ func (nfo *Jnfo) setNumDateDuration(doc *goquery.Document) {
 			return
 		}
 
-		if i == 0 {
-			nfo.Num = content
+		if strings.HasPrefix(entry, "識別碼") {
+			nfo.Num = strings.TrimSpace(content)
 			return
 		}
 
-		if i == 1 {
+		if strings.HasPrefix(entry, "發行日期") {
 			nfo.Date = content
 			return
 		}
 
-		if i == 2 {
+		if strings.HasPrefix(entry, "長度") {
 			nfo.Duration = minUnit.ReplaceAllString(content, "")
 			return
 		}
