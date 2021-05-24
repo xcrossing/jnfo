@@ -51,6 +51,11 @@ func (nfo *Jnfo) NumCastPicName() string {
 	return fmt.Sprintf("%s%s", nfo.Num, ext)
 }
 
+func (nfo *Jnfo) Prefix() string {
+	dashIdx := strings.Index(nfo.Num, "-")
+	return nfo.Num[:dashIdx]
+}
+
 func (nfo *Jnfo) setNumDateDuration(doc *goquery.Document) {
 	doc.Find(".info p").Each(func(i int, s *goquery.Selection) {
 		entry := s.Text()
