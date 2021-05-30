@@ -2,6 +2,7 @@ package jnfo
 
 import (
 	"fmt"
+	"net/url"
 	"path/filepath"
 	"regexp"
 	"strings"
@@ -25,8 +26,8 @@ type Jnfo struct {
 
 var minUnit = regexp.MustCompile(`[^0-9]`)
 
-func New(url string) (*Jnfo, error) {
-	doc, err := getDoc(url)
+func New(uri string) (*Jnfo, error) {
+	doc, err := getDoc(uri)
 	if err != nil {
 		return nil, err
 	}
@@ -34,6 +35,16 @@ func New(url string) (*Jnfo, error) {
 	nfo := &Jnfo{}
 
 	nfo.PicLink, _ = doc.Find(".bigImage img").Attr("src")
+	if strings.HasPrefix(nfo.PicLink, "/") {
+		u, err := url.Parse(uri)
+		if err != nil {
+			return nil, err
+		}
+		u.Path = ""
+		host := u.String()
+		nfo.PicLink = host + nfo.PicLink
+	}
+
 	nfo.Title, _ = subStrAfterSpace(doc.Find(".container h3").Text())
 	nfo.setNumDateDuration(doc)
 	nfo.setMeta(doc)
